@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Paint App by Ujjwal</title>
+  <style>
+    /* Global & Body */
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      color: #333;
+    }
+
+    /* Headline */
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    }
+    h1 a {
+      text-decoration: none;
+    }
+    h1 sub {
+      font-size: 1rem;
+      vertical-align: sub;
+      color: #e52e71;
+    }
+
+    /* Main layout: instructions + canvas */
+    #mainContainer {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    /* Instructions box */
+    #instructions {
+      max-width: 200px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: left;
+    }
+    /* Center the instruction heading */
+    #instructions h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #e52e71;
+      text-align: center; /* added for centering */
+    }
+    #instructions ul {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    /* Canvas container styling */
+    #canvasContainer {
+      position: relative;
+      /* light yellowish-white gradient */
+      background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* Canvas */
+    #myCanvas {
+      border: 2px solid #333;
+      cursor: crosshair;
+      background: transparent; /* allow gradient to show through */
+    }
+
+    /* Controls */
+    #controls {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    /* Reset button */
+    #resetBtn {
+      padding: 8px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #ff6f61;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    #resetBtn:hover {
+      background-color: #e85b50;
+      transform: translateY(-2px);
+    }
+    #resetBtn:active {
+      transform: translateY(0);
+    }
+
+    /* Message styling */
+    #message {
+      margin-top: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 1.5em;
+    }
+    #message.hit { color: #2ecc71; }
+    #message.miss { color: #e74c3c; }
+    #message.deleted { color: #f39c12; }
+  </style>
+</head>
+<body>
+
+  <h1>
+    Smart Paint App 
+    <a href="https://www.linkedin.com/in/ujjwal" target="_blank">
+      <sub>- By Ujjwal</sub>
+    </a>
+  </h1>
+
+  <div id="mainContainer">
+
+    <!-- Instructions -->
+    <div id="instructions">
+      <h2>How to Use</h2>
+      <ul>
+        <li>Click & drag to draw a circle.</li>
+        <li>Release to finalize and auto-fill it.</li>
+        <li>Single-click on a circle to see <strong>Hit</strong> or <strong>Miss</strong>.</li>
+        <li>Double-click a circle to <strong>Delete</strong> it.</li>
+        <li>Press Reset to clear everything.</li>
+      </ul>
+    </div>
+
+    <!-- Canvas -->
+    <div id="canvasContainer">
+      <canvas id="myCanvas" width="800" height="400"></canvas>
+      <div id="controls">
+        <button id="resetBtn">Reset</button>
+        <div id="message"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('myCanvas');
+      const ctx    = canvas.getContext('2d');
+      const msg    = document.getElementById('message');
+      const resetB = document.getElementById('resetBtn');
+
+      let circles = [];
+      let isDrawing = false;
+      let startX = 0, startY = 0;
+
+      function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+      function redrawAll() {
+        clearCanvas();
+        circles.forEach(c => {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+          ctx.fillStyle = c.color;
+          ctx.fill();
+        });
+      }
+      function getMousePos(evt) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+      }
+      function randomColor() {
+        const r=Math.floor(Math.random()*256),g=Math.floor(Math.random()*256),b=Math.floor(Math.random()*256);
+        return `rgb(${r},${g},${b})`;
+      }
+
+      canvas.addEventListener('mousedown', e => {
+        const pos = getMousePos(e);
+        startX = pos.x; startY = pos.y; isDrawing = true;
+      });
+      canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+        const radius = Math.hypot(pos.x-startX, pos.y-startY);
+        redrawAll();
+        ctx.save(); ctx.setLineDash([6,4]); ctx.lineWidth=2; ctx.strokeStyle='#333';
+        ctx.beginPath(); ctx.arc(startX,startY,radius,0,Math.PI*2); ctx.stroke(); ctx.restore();
+      });
+      canvas.addEventListener('mouseup', e => {
+        const pos = getMousePos(e);
+        const dx=pos.x-startX, dy=pos.y-startY;
+        if (isDrawing && Math.hypot(dx,dy)>5) { circles.push({x:startX,y:startY,r:Math.hypot(dx,dy),color:randomColor()}); redrawAll(); isDrawing=false; return; }
+        isDrawing=false;
+        if (e.detail!==1) return;
+        const hit = circles.some(c=> (pos.x-c.x)**2+(pos.y-c.y)**2<=c.r**2);
+        msg.textContent=hit?'Hit':'Miss'; msg.className=hit?'hit':'miss';
+      });
+      canvas.addEventListener('dblclick', e => {
+        const pos = getMousePos(e);
+        for (let i=circles.length-1;i>=0;i--) {
+          const c=circles[i]; if ((pos.x-c.x)**2+(pos.y-c.y)**2<=c.r**2) { circles.splice(i,1); redrawAll(); msg.textContent='Deleted!'; msg.className='deleted'; break; }
+        }
+      });
+      resetB.addEventListener('click', () => { circles=[]; clearCanvas(); msg.textContent=''; msg.className=''; });
+    })();
+  </script>
+
+</body>
+</html>
