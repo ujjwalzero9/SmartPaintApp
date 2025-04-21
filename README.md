@@ -1,6 +1,6 @@
 # 🎨 Smart Paint App
 
-An interactive, browser-based drawing tool that allows users to create, test, and delete circles on a canvas. Built using HTML5 Canvas and JavaScript.
+An interactive, browser-based drawing tool to create, test, and delete circles on a canvas. Built using **HTML5**, **CSS3**, and **JavaScript**.
 
 ---
 
@@ -10,50 +10,51 @@ An interactive, browser-based drawing tool that allows users to create, test, an
 
 ## 🔗 Live Demo
 
-👉 [Click here to try it out](https://tinyurl.com/ujjwalsmartpaint)
+👉 **[Click here to try it out](https://tinyurl.com/ujjwalsmartpaint)**
 
 ---
 
-## 📂 Project Links
+## 📂 Project Resources
 
-- 🔗 **Code (Google Drive):** [Smart Paint App Files](https://tinyurl.com/ujjwalsmartpaintapp)
-- 💼 **Author:** [Ujjwal Kumar](https://www.linkedin.com/in/ujjwalzero9/)
+- 🗃️ **Source Code:** [Google Drive Link](https://tinyurl.com/ujjwalsmartpaintapp)  
+- 💼 **Author:** [Ujjwal Kumar](https://www.linkedin.com/in/ujjwalzero9/)  
 - 🐙 **GitHub:** [@ujjwalzero9](https://github.com/ujjwalzero9)
 
 ---
 
 ## ✨ Features
 
-- 🖱️ **Draw Circles**: Click and drag to create colored circles.
-- 🎯 **Hit Detection**: Single-click inside a circle to check for a **Hit** or **Miss**.
-- ❌ **Delete**: Double-click a circle to remove it.
-- 🔄 **Reset**: Clear the entire canvas with one click.
+- 🖱️ Click & drag to draw circles.
+- 🎨 Automatically fills circles with random colors.
+- 🎯 Click a circle to see if it's a **Hit** or **Miss**.
+- ❌ Double-click a circle to **Delete** it.
+- 🔄 Reset the canvas with a single button.
 
 ---
 
-## 🧑‍💻 How to Use
+## 📋 How to Use
 
-1. Open the [Live App](https://tinyurl.com/ujjwalsmartpaint) in a modern browser.
-2. Click & drag on the canvas to draw a circle.
-3. Release to finalize and fill the circle with a random color.
-4. Single-click on a circle to test if you hit it.
-5. Double-click to delete any circle.
-6. Click **Reset** to clear all drawings.
-
----
-
-## 🛠️ Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Canvas API
+1. Click and drag on the canvas to draw a circle.
+2. Release the mouse to finalize the shape.
+3. Single-click on any existing circle to test for a **Hit** or **Miss**.
+4. Double-click a circle to remove it.
+5. Use the **Reset** button to clear all drawings.
 
 ---
 
-## 🚀 Setup Locally
+## 🛠️ Built With
+
+- **HTML5 Canvas API**
+- **Vanilla JavaScript**
+- **CSS3 Gradients and Flexbox**
+
+---
+
+## 🧑‍💻 Run Locally
+
+To try it out on your system:
 
 ```bash
 git clone https://github.com/ujjwalzero9/SmartPaintApp.git
 cd SmartPaintApp
-open index.html   # or double-click it
+# Open index.html in your browser
