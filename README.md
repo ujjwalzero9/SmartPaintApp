@@ -4,7 +4,7 @@ An interactive, browser-based drawing tool to create, test, and delete circles o
 
 ---
 
-![Smart Paint App Screenshot](https://github.com/ujjwalzero9/SmartPaintApp/blob/main/screenshot.jpg)
+![Smart Paint App Screenshot](https://github.com/ujjwalzero9/SmartPaintApp/blob/main/screenshot2.jpg)
 
 ---
 
